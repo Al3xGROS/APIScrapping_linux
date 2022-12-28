@@ -5,6 +5,8 @@ var logger = require('morgan');
 const { exec } = require('child_process');
 const { stdout } = require('process');
 
+var indexRouter = require('./routes/index');
+
 var app = express();
 
 app.use(logger('dev'));
@@ -24,23 +26,6 @@ function sendReq() {
   });
 }
 
-app.get('/', function(req,res){
-  console.log('page render requestsed');
-  exec('curl "https://api.airtable.com/v0/appNly6KQtUVC2Mot/covidFrance?view=Grid%20view" -H "Authorization: Bearer keyb8gsvTJ7gwCm8n"', function(error, stdout, stderr) {
-    if (error) {
-      // Handle errors
-      console.error(error);
-      return;
-    }
-    let data = JSON.parse(stdout);
-    res.render(path.join(__dirname+'/views/page.ejs'), {data: data});
-  });
-  //__dirname : It will resolve to your project folder.
-});
-app.post('/send', function(req, res){
-  console.log('Send requested');
-  sendReq();
-  res.sendStatus(200);
-});
+app.use('/', indexRouter);
 
 module.exports = app;
