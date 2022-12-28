@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Scrapping Linux</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script type="text/javascript">
+        function execBash() {
+            console.log("Function execBash() called !");
+            const xhr = new XMLHttpRequest();
+            console.log(xhr);
+            xhr.open("POST", "/send");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send();
+            xhr.onload = function() {
+                console.log("Requête envoyée sans erreur");
+            }
+            setTimeout(() => {
+                window.location.reload(1);
+            }, "3000")
+        }
+    </script>
+</head>
+
+<body>
+    <div class="page">
+        <div class="page_header">
+            <h1>API SCRAPPING COVID</h1>
+        </div>
+        <div class="page_body">
+            <h3>Informations scrapped from API about covid in France</h3>
+            <button class="page_button" onclick="execBash()">Scrapp Data</button>
+            <table class="table_data">
+                <tr>
+                    <% for (var key in data.records[0].fields) { %>
+                      <th><%= key %></th>
+                    <% } %>
+                </tr>
+                <% data.records.forEach(function(record) { %>
+                  <tr>
+                    <% for (var key in record.fields) { %>
+                      <td><%= record.fields[key] %></td>
+                    <% } %>
+                  </tr>
+                <% }); %>
+            </table>
+        </div>
+        <div class="page_footer">
+            <p>Copyright Alexandre GROS - API covid scrapping</p>
+        </div>
+    </div>
+</body>
+</html>
